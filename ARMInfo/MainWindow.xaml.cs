@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -11,13 +7,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
+using InfoCollector.PersonalInformation;
 using InfoCollector.SystemInformation;
 
 namespace ARMInfo
 {
+
     public partial class MainWindow : Window
     {
-        public static bool MayIGoOut = false;
+        public static bool MayIGoOut = true;
 
         public MainWindow(IPCInfo pc)
         {
@@ -58,10 +57,14 @@ namespace ARMInfo
             cmb.Text = cmb.Text.ToUpper();
         }
 
-        private void Window_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var vm = ((MainViewModel)DataContext);
-
+            if (DataContext is MainViewModel vm)
+            {
+                comboBoxInventoryNumber.Focus();
+            }
         }
+
     }
+
 }

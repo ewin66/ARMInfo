@@ -1,5 +1,7 @@
 ﻿using System;
 
+using InfoCollector.PersonalInformation;
+
 namespace InfoCollector.SystemInformation
 {
     public interface IPCInfo : ICloneable
@@ -32,8 +34,8 @@ namespace InfoCollector.SystemInformation
         string status { get; set; } // флаг запрета изменений. (если он установлен, позвоните на номер 5527)
         string date_apply { get; set; } // на сервере
         string date_edit { get; set; } // на сервере
-
         IPersonalInfo GetPersonalInfo();
+        void SetUp(ISystemInfo SystemParameters, IPersonalInfo PersonalParameters);
     }
 
 

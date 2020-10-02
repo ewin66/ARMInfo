@@ -7,10 +7,8 @@
         xmlns:conv="clr-namespace:ARMInfo.Converters"
         mc:Ignorable="d"
        WindowStyle="None"
-        
-        Closing="Window_Closing"
-        DataContextChanged="Window_DataContextChanged"
-        
+        Loaded="Window_Loaded"
+        Closing="Window_Closing"       
         
         SizeToContent="Height"
         Width="680.224"
@@ -40,19 +38,12 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <StackPanel x:Name="UserInfo" Margin="10" Grid.Row="0">
-            <TextBlock Margin="10,10" TextAlignment="Center" FontSize="22">
-             <Run>
-            Уважаемый сотрудник,
-            </Run>
-             <LineBreak></LineBreak>
-                <Run FontSize="20" >
-            Заполните данную форму
-            </Run>
-            <Run FontSize="20" Foreground="Red">
-                 во избежание блокировки компьютера!
-            </Run>
-                <LineBreak></LineBreak>
-                <Run FontSize="15">(Тел. администратора: +7-999-252-0046)</Run>
+            <TextBlock Margin="10,0" TextAlignment="Center" FontSize="22">
+            Уважаемый сотрудник,</TextBlock>
+            <TextBlock Margin="10,0" TextAlignment="Center" FontSize="20" Foreground="Red">во избежание блокировки компьютера,</TextBlock>
+            <TextBlock Margin="10,0" TextAlignment="Center" FontSize="22">заполните данную форму</TextBlock>
+            <TextBlock Margin="10,0" TextAlignment="Center" FontSize="18">
+                (Тел. администратора: +7-999-252-0046)
             </TextBlock>
 
             <Border BorderThickness="1" BorderBrush="Black" Margin="0,5">
@@ -68,14 +59,15 @@
                                   VerticalContentAlignment="Center" 
                                   Grid.Column="1" 
                                   ItemsSource="{Binding OVDList}" 
-                                  SelectedItem="{Binding SelectedOVD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                                  
-                                  
+                                  SelectedItem="{Binding SelectedOVD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  DisplayMemberPath="FullName"
+                                  IsSynchronizedWithCurrentItem="True"
                                   >
-                            <ComboBox.ItemTemplate>
+                            <!--<ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Path=Abbrev}" Tag="{Binding Path=.}" ToolTip="{Binding Path=FullName}"></TextBlock>
                                 </DataTemplate>
-                            </ComboBox.ItemTemplate>
+                            </ComboBox.ItemTemplate>-->
                         </ComboBox>
                     </Grid>
                     <Grid Margin="5">
@@ -90,13 +82,14 @@
                             FontSize="18" VerticalContentAlignment="Center"
                             ItemsSource="{Binding SelectedOVD.Departments}"
                             SelectedItem="{Binding SelectedDepartment, UpdateSourceTrigger=PropertyChanged}"
-                           
+                           DisplayMemberPath="Abbrev"
+                            IsSynchronizedWithCurrentItem="True"
                             >
-                            <ComboBox.ItemTemplate>
+                            <!--<ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Path=Abbrev}" Tag="{Binding Path=.}" ToolTip="{Binding Path=FullName}"></TextBlock>
                                 </DataTemplate>
-                            </ComboBox.ItemTemplate>
+                            </ComboBox.ItemTemplate>-->
                         </ComboBox>
 
                     </Grid>
@@ -114,6 +107,7 @@
                              ItemsSource="{Binding SelectedDepartment.AttestObjects}" 
                              SelectedItem="{Binding SelectedAttestObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             
+                            IsSynchronizedWithCurrentItem="True"
                             >
 
                             <ComboBox.ItemTemplate>
@@ -146,7 +140,8 @@
                 <StackPanel>
                     <Label>Инвентарный номер ПЭВМ:</Label>
                     <ComboBox FontSize="20" 
-                              IsDropDownOpen="{Binding IsDropDownPcList}"
+                              Name="comboBoxInventoryNumber"
+                              IsDropDownOpen="{Binding IsDropDownPcList, UpdateSourceTrigger=PropertyChanged}"
                               Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                               ItemsSource="{Binding FilteredPcInfo}" 
                               SelectedItem="{Binding SelectedPc, UpdateSourceTrigger=PropertyChanged}"
@@ -158,7 +153,7 @@
                               PreviewKeyUp="ComboBox_PreviewKeyUp"
                               VirtualizingStackPanel.IsVirtualizing="True" 
                               VirtualizingStackPanel.VirtualizationMode="Standard"
-                              
+                              IsSynchronizedWithCurrentItem="True"
                               >
                         <ComboBox.ItemsPanel>
                             <ItemsPanelTemplate >
@@ -260,12 +255,17 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" FontSize="16">Антивирус:</Label>
-                        <TextBlock Grid.Column="1"                                    
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <TextBlock Grid.Column="1"                                    
                                    VerticalAlignment="Center"
-                                   HorizontalAlignment="Stretch" FontSize="16" FontWeight="Bold">                            
-                                <Run Text="{Binding SystemParameters.AntivirusInfo.Name}"></Run>
-                                <Run Text="{Binding SystemParameters.AntivirusInfo.Version}"></Run>
-                        </TextBlock>
+                                   HorizontalAlignment="Stretch" FontSize="16" FontWeight="Bold"
+                                   Text="{Binding SystemParameters.AntivirusInfo.Name}">
+                            </TextBlock>
+                            <TextBlock Margin="10,0" Grid.Column="1"                                    
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Stretch" FontSize="16" FontWeight="Bold"
+                                   Text="{Binding SystemParameters.AntivirusInfo.Version}"/>
+                        </StackPanel>
                     </Grid>
                     <Grid Margin="0,5">
                         <Grid.ColumnDefinitions>
@@ -273,13 +273,16 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" FontSize="16">Криптопровайдер:</Label>
-                        <TextBlock Grid.Column="1" 
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <TextBlock Grid.Column="1" 
                                    VerticalAlignment="Center"
-                                   HorizontalAlignment="Stretch" FontSize="16" FontWeight="Bold">
-                             <Run Text="{Binding SystemParameters.CryptoPROInfo.Name}"></Run>
-                             <Run Text="{Binding SystemParameters.CryptoPROInfo.Version}"></Run>
-                        </TextBlock>
-
+                                   HorizontalAlignment="Stretch" FontSize="16" FontWeight="Bold"
+                                   Text="{Binding SystemParameters.CryptoPROInfo.Name}"/>
+                            <TextBlock Margin="10,0" Grid.Column="1" 
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Stretch" FontSize="16" FontWeight="Bold"
+                                   Text="{Binding SystemParameters.CryptoPROInfo.Version}"/>
+                        </StackPanel>
                     </Grid>
                     <Grid Margin="0,5">
                         <Grid.ColumnDefinitions>
@@ -287,13 +290,16 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" FontSize="16">VPN клиент:</Label>
-                        <TextBlock Grid.Column="1" 
-                                   Text="{Binding SystemParameters.VPNClientInfo}"
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <TextBlock 
                                    VerticalAlignment="Center"
-                                   HorizontalAlignment="Stretch" FontSize="16" FontWeight="Bold">
-                            <Run Text="{Binding SystemParameters.VPNClientInfo.Name}"></Run>
-                            <Run Text="{Binding SystemParameters.VPNClientInfo.Version}"></Run>
-                        </TextBlock>
+                                   HorizontalAlignment="Stretch" FontSize="16" FontWeight="Bold"
+                                   Text="{Binding SystemParameters.VPNClientInfo.Name}"/>
+                            <TextBlock Margin="10,0" Grid.Column="1" 
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Stretch" FontSize="16" FontWeight="Bold"
+                                   Text="{Binding SystemParameters.VPNClientInfo.Version}"/>
+                        </StackPanel>
                     </Grid>
                     <Grid Margin="0,5">
                         <Grid.ColumnDefinitions>
@@ -301,13 +307,16 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" FontSize="16">Средство защиты от НСД:</Label>
-                        <TextBlock Grid.Column="1"
-                                   Text="{Binding SystemParameters.DefenderNSDInfo}"
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <TextBlock Grid.Column="1"
                                    VerticalAlignment="Center"
-                                   HorizontalAlignment="Stretch" FontSize="16" FontWeight="Bold">
-                            <Run Text="{Binding SystemParameters.DefenderNSDInfo.Name}"></Run>
-                            <Run Text="{Binding SystemParameters.DefenderNSDInfo.Version}"></Run>
-                        </TextBlock>
+                                   HorizontalAlignment="Stretch" FontSize="16" FontWeight="Bold"
+                            Text="{Binding SystemParameters.DefenderNSDInfo.Name}"/>
+                            <TextBlock Margin="10,0" Grid.Column="1"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Stretch" FontSize="16" FontWeight="Bold"
+                                   Text="{Binding SystemParameters.DefenderNSDInfo.Version}"/>
+                        </StackPanel>
                     </Grid>
                 </StackPanel>
             </Expander>

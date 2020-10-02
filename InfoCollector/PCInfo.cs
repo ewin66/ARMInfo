@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 
+using InfoCollector.PersonalInformation;
+
 namespace InfoCollector.SystemInformation
 {
-    public class PCInfo : ICloneable
+    public class PCInfo : IPCInfo, ICloneable
     {
         public enum Status { IS_NOT_APPLY, PROCESSING, IS_APPLY };
         public int id { get; set; }
