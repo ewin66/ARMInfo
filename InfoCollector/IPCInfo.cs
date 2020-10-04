@@ -37,6 +37,4 @@ namespace InfoCollector.SystemInformation
         IPersonalInfo GetPersonalInfo();
         void SetUp(ISystemInfo SystemParameters, IPersonalInfo PersonalParameters);
     }
-
-
 }

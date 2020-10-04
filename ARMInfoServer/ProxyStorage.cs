@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
 using InfoCollector.PersonalInformation;
 using InfoCollector.SystemInformation;
@@ -11,10 +12,23 @@ using Newtonsoft.Json;
 
 namespace ARMInfoServer
 {
-    public class ProxyStorage
+    public interface IProxyStorage
     {
-        public static List<IOVDInfo> OVDCollection { get; set; }
-        public static List<IPCInfo> PCInfoCollection { get; set; }
+        List<IOVDInfo> OVDCollection { get; set; }
+        List<IPCInfo> PCInfoCollection { get; set; }
+
+        void Load();
+    }
+
+
+    public sealed class ProxyStorage : IProxyStorage
+    {
+        private static readonly ProxyStorage instance = new ProxyStorage();
+
+        public List<IOVDInfo> OVDCollection { get; set; }
+        public List<IPCInfo> PCInfoCollection { get; set; }
+
+        #region urls
 
 #if DEBUG
         public static string root = $@"http://83.169.224.42:25780/citsizi/api/v2/";
@@ -27,7 +41,9 @@ namespace ARMInfoServer
         public string ovdUrl = root + @"ovd/extend/";
         public string departmentUrl = root + @"department/extend/";
 
-        public void Init()
+        #endregion
+
+        public void Load()
         {
             AttestObjectInfo.Addresses = (new Report<Address>()).Load(addressUrl);
             OVD.AllObjects = (new Report<AttestObjectInfo>()).Load(objectUrl).Cast<IAttestObjectInfo>().ToList();
@@ -39,6 +55,22 @@ namespace ARMInfoServer
 
             PCInfoCollection = (new Report<PCInfo>()).Load(pcUrl).Cast<IPCInfo>().ToList();
         }
-    }
+        // Explicit static constructor to tell C# compiler
+        // not to mark type as beforefieldinit
+        static ProxyStorage()
+        {
+        }
 
+        private ProxyStorage()
+        {
+        }
+
+        public static ProxyStorage Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+    }
 }

@@ -5,6 +5,7 @@ using InfoCollector.PersonalInformation;
 
 namespace InfoCollector.SystemInformation
 {
+    [Serializable]
     public class PCInfo : IPCInfo, ICloneable
     {
         public enum Status { IS_NOT_APPLY, PROCESSING, IS_APPLY };
