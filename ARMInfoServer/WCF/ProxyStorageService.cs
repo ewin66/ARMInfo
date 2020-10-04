@@ -12,6 +12,8 @@ namespace ARMInfoServer.WCF
         {
             return new OVDCollectionContainer { OVDCollection = Storage.OVDCollection };
         }
+
+
         #region Подключение/Отключение клиентов
         public static event Action<string> NewClientRegistered;
         public static event Action<string> ClientUnregistered;
@@ -41,6 +43,42 @@ namespace ARMInfoServer.WCF
             }
         }
         #endregion
+
+
+        public static event Action<CommunicationException> ServiceError;
+        public static void CallAllClients(Action<ICallbackContract> invoke)
+        {
+            var keys = Clients.Keys.ToList();
+            if (Clients?.Count > 0)
+                foreach (var key in keys)
+                {
+                    try
+                    {
+                        if (Clients[key] != null)
+                            invoke(Clients[key]);
+                        else
+                            Clients.Remove(key);
+                    }
+                    catch (Exception err)
+                    {
+                        try
+                        {
+                            Clients.Remove(key);
+                        }
+                        catch (CommunicationException ce)
+                        {
+                            ServiceError?.Invoke(ce);
+                        }
+                    }
+                }
+        }
+
+        public static void NotifyClients(string message)
+        {
+            CallAllClients((clientCallback) => { clientCallback.ServerToClient(message); });
+        }
+
+
         private IProxyStorage Storage { get; }
         public ProxyStorageService(IProxyStorage storage)
         {
