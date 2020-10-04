@@ -1,45 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
-
-using InfoCollector.PersonalInformation;
-using InfoCollector.SystemInformation;
 
 using Newtonsoft.Json;
 
 namespace ARMInfoServer
 {
-
-    public class Proxy
-    {
-        public List<IOVDInfo> OVDCollection { get; set; }
-        public List<IPCInfo> PCInfoCollection { get; set; }
-
-        public static string root = $@"http://10.221.0.58/citsizi/api/v2/";
-        public static string addressUrl = root + @"certification/address";
-        public static string objectUrl = root + @"certification/object/";
-        public static string pcUrl = root + @"certification/pc/?page_size=10000";
-        public static string ovdUrl = root + @"ovd/extend/";
-        public static string departmentUrl = root + @"department/extend/";
-
-
-        public void Init()
-        {
-            AttestObjectInfo.Addresses = (new Report<Address>()).Load(addressUrl);
-            OVD.AllObjects = (new Report<AttestObjectInfo>()).Load(objectUrl).Cast<IAttestObjectInfo>().ToList();
-            Department.AllAttestObjects = OVD.AllObjects;
-            OVD.AllDepartments = (new Report<Department>()).Load(departmentUrl).Cast<IDepartment>().ToList();
-            var ovds = (new Report<OVD>()).Load(ovdUrl).Select(x => (IOVDInfo)x).ToList();
-            AttestObjectInfo.OVDs = ovds;
-            OVDCollection = ovds;
-
-
-        }
-    }
-
-
     public class Report
     {
         public int page_number;
