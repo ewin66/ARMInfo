@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARMInfo", "ARMInfo\ARMInfo.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfoCollector", "InfoCollector\InfoCollector.csproj", "{6701D4D0-2656-4475-9D97-AC1C5FD4AE94}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARMInfoServer", "ARMInfoServer\ARMInfoServer.csproj", "{11CA6C03-EAB7-48C8-8695-83E199A17AC3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6701D4D0-2656-4475-9D97-AC1C5FD4AE94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6701D4D0-2656-4475-9D97-AC1C5FD4AE94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6701D4D0-2656-4475-9D97-AC1C5FD4AE94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11CA6C03-EAB7-48C8-8695-83E199A17AC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11CA6C03-EAB7-48C8-8695-83E199A17AC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11CA6C03-EAB7-48C8-8695-83E199A17AC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11CA6C03-EAB7-48C8-8695-83E199A17AC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
