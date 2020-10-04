@@ -12,13 +12,6 @@ using Newtonsoft.Json;
 
 namespace ARMInfoServer
 {
-    public interface IProxyStorage
-    {
-        List<IOVDInfo> OVDCollection { get; set; }
-        List<IPCInfo> PCInfoCollection { get; set; }
-
-        void Load();
-    }
 
 
     public sealed class ProxyStorage : IProxyStorage
@@ -31,15 +24,17 @@ namespace ARMInfoServer
         #region urls
 
 #if DEBUG
-        public static string root = $@"http://83.169.224.42:25780/citsizi/api/v2/";
+        public const string root = @"http://83.169.224.42:25780/citsizi/api/v2/";
 #else
         public const string root = @"http://10.221.0.58/citsizi/api/v2/";
 #endif
-        public string addressUrl = root + @"certification/address";
-        public string objectUrl = root + @"certification/object/";
-        public string pcUrl = root + @"certification/pc/?page_size=10000";
-        public string ovdUrl = root + @"ovd/extend/";
-        public string departmentUrl = root + @"department/extend/";
+
+
+        public string addressUrl;
+        public string objectUrl;
+        public string pcUrl;
+        public string ovdUrl;
+        public string departmentUrl;
 
         #endregion
 
@@ -63,6 +58,11 @@ namespace ARMInfoServer
 
         private ProxyStorage()
         {
+            addressUrl = root + @"certification/address";
+            objectUrl = root + @"certification/object/";
+            pcUrl = root + @"certification/pc/?page_size=10000";
+            ovdUrl = root + @"ovd/extend/";
+            departmentUrl = root + @"department/extend/";
         }
 
         public static ProxyStorage Instance

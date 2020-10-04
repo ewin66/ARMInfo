@@ -58,8 +58,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="IProxyStorage.cs" />
     <Compile Include="ProxyStorage.cs" />
     <Compile Include="Report.cs" />
+    <Compile Include="Server.cs" />
     <Compile Include="WCF\ICallbackContract.cs" />
     <Compile Include="WCF\INetContract.cs" />
     <Compile Include="WCF\IRegisteredCallback.cs" />

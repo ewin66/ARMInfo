@@ -77,13 +77,14 @@ namespace ARMInfoServer.WCF
         {
             CallAllClients((clientCallback) => { clientCallback.ServerToClient(message); });
         }
-
-
-        private IProxyStorage Storage { get; }
-        public ProxyStorageService(IProxyStorage storage)
+        internal IProxyStorage Storage { get; }
+        public ProxyStorageService()
         {
-            Storage = storage;
+            //IProxyStorage storage
+            Storage = ProxyStorage.Instance;
             Storage.Load();
-        }        
+        }
+
+        
     }
 }
