@@ -77,8 +77,6 @@ namespace ARMInfo
         }
 
 
-
-
         private static void ShowView(IPCInfo pc = null)
         {
             var view = new MainWindow(pc);
