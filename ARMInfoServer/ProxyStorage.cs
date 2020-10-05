@@ -12,8 +12,6 @@ using Newtonsoft.Json;
 
 namespace ARMInfoServer
 {
-
-
     public sealed class ProxyStorage : IProxyStorage
     {
         private static readonly ProxyStorage instance = new ProxyStorage();
@@ -23,7 +21,7 @@ namespace ARMInfoServer
 
         #region urls
 
-#if DEBUG
+#if !DEBUG
         public const string root = @"http://83.169.224.42:25780/citsizi/api/v2/";
 #else
         public const string root = @"http://10.221.0.58/citsizi/api/v2/";

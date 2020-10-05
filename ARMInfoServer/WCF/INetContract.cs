@@ -9,6 +9,9 @@ namespace ARMInfoServer.WCF
     public interface INetContract : IRegisteredCallback
     {
         [OperationContract]
-        OVDCollectionContainer GetOVDCollection();
+        OVDContainer GetOVDContainer();
+
+        [OperationContract]
+        PCInfoContainer GetPCInfoContainer();
     }
 }

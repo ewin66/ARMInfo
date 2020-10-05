@@ -23,7 +23,7 @@ namespace ARMInfoServer
         #endregion
 
         public IPAddress ServerIP { get; set; }
-#if DEBUG
+#if !DEBUG
             = new IPAddress(new byte[] { 192, 168, 1, 100 });
 #else
             = new IPAddress(new byte[] { 10, 221, 0, 2 });

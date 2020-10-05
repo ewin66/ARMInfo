@@ -65,7 +65,8 @@
     <Compile Include="WCF\ICallbackContract.cs" />
     <Compile Include="WCF\INetContract.cs" />
     <Compile Include="WCF\IRegisteredCallback.cs" />
-    <Compile Include="WCF\OVDCollectionContainer.cs" />
+    <Compile Include="WCF\OVDContainer.cs" />
+    <Compile Include="WCF\PCInfoContainer.cs" />
     <Compile Include="WCF\ProxyStorageService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

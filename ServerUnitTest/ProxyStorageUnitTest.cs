@@ -11,12 +11,12 @@ namespace ServerUnitTest
         [TestMethod]
         public void LoadingCollectionsTest()
         {
-            var ps = new ProxyStorage();
-            ps.Init();
-            var ovds = ProxyStorage.OVDCollection;
-            var pcs = ProxyStorage.PCInfoCollection;
+            var ps = ProxyStorage.Instance;
+            ps.Load();
+            var ovds = ps.OVDCollection;
+            var pcs = ps.PCInfoCollection;
 
-            Assert.IsTrue(ProxyStorage.PCInfoCollection.Count > 0 && ProxyStorage.OVDCollection.Count > 0);
+            Assert.IsTrue(ps.PCInfoCollection.Count > 0 && ps.OVDCollection.Count > 0);
 
         }
     }

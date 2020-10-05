@@ -14,10 +14,42 @@ using InfoCollector.SystemInformation;
 
 namespace ARMInfo
 {
+
     public partial class App : Application
     {
-        ITracerException Tracer = new TracerException();
         private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            try
+            {
+                //new MainWindow();
+            }
+            catch (Exception err)
+            {
+                ARMInfo.MainWindow.MayIGoOut = true;
+                MessageBox.Show(err.Message, "", MessageBoxButton.OK, MessageBoxImage.Error);
+                Tracer.Append(err.Message);
+                Current.Shutdown();
+            }
+        }
+    }
+
+
+
+
+    public partial class App : Application
+    {
+
+
+        ITracerException Tracer = new TracerException();
+
+
+        private static void ShowView(IPCInfo pc = null)
+        {
+            var view = new MainWindow(pc);
+            view.Show();
+        }
+
+        private void Application_Startup1(object sender, StartupEventArgs e)
         {
             try
             {
@@ -77,16 +109,13 @@ namespace ARMInfo
         }
 
 
-        private static void ShowView(IPCInfo pc = null)
-        {
-            var view = new MainWindow(pc);
-            view.Show();
-        }
-
-
-
-
     }
+
+
+
+
+
+
 
     public partial class App : Application
     {

@@ -8,11 +8,14 @@ namespace ARMInfoServer.WCF
 {
     public class ProxyStorageService<Contract> : INetContract
     {
-        public OVDCollectionContainer GetOVDCollection()
+        public OVDContainer GetOVDContainer()
         {
-            return new OVDCollectionContainer { OVDCollection = Storage.OVDCollection };
+            return new OVDContainer { OVDCollection = Storage.OVDCollection };
         }
-
+        public PCInfoContainer GetPCInfoContainer()
+        {
+            return new PCInfoContainer { PCInfoCollection = Storage.PCInfoCollection };
+        }
 
         #region Подключение/Отключение клиентов
         public static event Action<string> NewClientRegistered;
@@ -85,6 +88,6 @@ namespace ARMInfoServer.WCF
             Storage.Load();
         }
 
-        
+
     }
 }
