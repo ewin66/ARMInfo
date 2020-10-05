@@ -10,6 +10,8 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media.Animation;
 
+using ARMInfo.WCF;
+
 using InfoCollector.PersonalInformation;
 using InfoCollector.SystemInformation;
 
@@ -32,23 +34,30 @@ namespace ARMInfo
             ListPcInfo = new ObservableCollection<IPCInfo>(Getway.LoadPcInfo());
         }
 
-        public MainViewModel(IPCInfo pc)
+        public MainViewModel(ServiceClient sc)
         {
-            OVDList = Getway.LoadOvdInfo();
+            sc.Connect();
+
+            MessageBox.Show(sc.Hello());
+
+            OVDList = sc.DownloadOVDList();
+
 
             if (OVDList.Count == 0) { MainWindow.MayIGoOut = true; }
 
-            ListPcInfo = new ObservableCollection<IPCInfo>(Getway.LoadPcInfo());
-            this.SystemParameters = new SystemInfo();
-            this.PersonalParameters = pc.GetPersonalInfo();
-            SelectedOVD = OVDList.First(x => x.Id == pc.ovd);
-            if (pc.department != null)
-                SelectedDepartment = SelectedOVD.Departments?.First(x => x.Id == pc.department);
-            var obj = OVD.AllObjects.First(x => x.id == pc.@object);
-            SelectedAttestObject = obj;
-            FilterText = PersonalParameters.InventoryNumber;
-            SelectedPc = pc;
-            IsDropDownPcList = false;
+            ListPcInfo = new ObservableCollection<IPCInfo>(sc.DownloadPcInfoList());
+
+
+            //this.SystemParameters = new SystemInfo();
+            //this.PersonalParameters = pc.GetPersonalInfo();
+            //SelectedOVD = OVDList.First(x => x.Id == pc.ovd);
+            //if (pc.department != null)
+            //    SelectedDepartment = SelectedOVD.Departments?.First(x => x.Id == pc.department);
+            //var obj = OVD.AllObjects.First(x => x.id == pc.@object);
+            //SelectedAttestObject = obj;
+            //FilterText = PersonalParameters.InventoryNumber;
+            //SelectedPc = pc;
+            //IsDropDownPcList = false;
         }
 
         #region OVD

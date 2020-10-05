@@ -8,6 +8,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using ARMInfo.WCF;
+
 using InfoCollector.PersonalInformation;
 using InfoCollector.SystemInformation;
 
@@ -21,10 +23,18 @@ namespace ARMInfo
         public MainWindow(IPCInfo pc)
         {
             InitializeComponent();
-            this.DataContext = (pc != null)
-                ? new MainViewModel(pc)
-                : new MainViewModel(new SystemInfo(), new PersonalInfo());
+            this.DataContext = new MainViewModel(new SystemInfo(), new PersonalInfo());
 
+            //(pc != null)
+            //    ? new MainViewModel(pc)
+            //    :
+
+        }
+
+        public MainWindow(ServiceClient sc)
+        {
+            InitializeComponent();
+            this.DataContext = new MainViewModel(sc);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

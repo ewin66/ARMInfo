@@ -64,7 +64,11 @@
     <Compile Include="Report.cs" />
     <Compile Include="TracerException.cs" />
     <Compile Include="WCF\CallbackHandler.cs" />
+    <Compile Include="WCF\ICallbackContract.cs" />
     <Compile Include="WCF\INetContract.cs" />
+    <Compile Include="WCF\IRegisteredCallback.cs" />
+    <Compile Include="WCF\OVDContainer.cs" />
+    <Compile Include="WCF\PCInfoContainer.cs" />
     <Compile Include="WCF\ServiceClient.cs" />
     <Compile Include="WCF\TcpBindingFactory.cs" />
     <Page Include="MainWindow.xaml">

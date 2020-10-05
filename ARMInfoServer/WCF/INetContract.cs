@@ -13,5 +13,7 @@ namespace ARMInfoServer.WCF
 
         [OperationContract]
         PCInfoContainer GetPCInfoContainer();
+        [OperationContract]
+        string Hello();
     }
 }

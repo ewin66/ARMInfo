@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
+using System.Windows;
 
 namespace ARMInfoServer.WCF
 {
     public class ProxyStorageService<Contract> : INetContract
     {
+        public string Hello()
+        {
+            return "Hello!!!";
+        }
         public OVDContainer GetOVDContainer()
         {
+            MessageBox.Show("new download request");
             return new OVDContainer { OVDCollection = Storage.OVDCollection };
         }
         public PCInfoContainer GetPCInfoContainer()

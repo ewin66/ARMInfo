@@ -37,7 +37,22 @@ namespace ARMInfo.WCF
             Uri address = new Uri($"net.tcp://{serverIP}:{serverPort}/{serviceName}");
             serverEndpoint = new EndpointAddress(address);
         }
-
+        public string Hello()
+        {
+            try
+            {
+                if (IsConnected)
+                {
+                    
+                    return channel.Hello();
+                }
+            }
+            catch (CommunicationException ce)
+            {
+                CommunicationError?.Invoke(ce);
+            }
+            return null;
+        }
         public List<IOVDInfo> DownloadOVDList()
         {
             try
@@ -71,88 +86,84 @@ namespace ARMInfo.WCF
             return null;
         }
 
-        public async void Connect()
+        public void Connect()
         {
             if (serverEndpoint == null) return;
-            var connecting = Task.Factory.StartNew(() =>
+            //var connecting = Task.Factory.StartNew(() => {
+            _callbackHandler.Channel = null;
+            channel = null;
+            if (channelFactory == null)
             {
-                _callbackHandler.Channel = null;
-                channel = null;
-                if (channelFactory == null)
+                channelFactory = new DuplexChannelFactory<INetContract>(
+                    new InstanceContext(_callbackHandler),
+                    TcpBindingFactory.Create(),
+                    serverEndpoint
+                );
+            }
+            if (channel == null)
+            {
+                EventHandler stateChanged = (s, e) =>
                 {
-                    channelFactory = new DuplexChannelFactory<INetContract>(
-                        new InstanceContext(_callbackHandler),
-                        TcpBindingFactory.Create(),
-                        serverEndpoint
-                    );
-                }
-                if (channel == null)
+                    ChannelStateChanged?.Invoke(channelFactory.State);
+                };
+                channelFactory.Faulted += stateChanged;
+                channelFactory.Opening += stateChanged;
+                channelFactory.Opened += stateChanged;
+                channelFactory.Closing += stateChanged;
+                channelFactory.Closed += stateChanged;
+
+                try
                 {
-                    EventHandler stateChanged = (s, e) =>
-                    {
-                        ChannelStateChanged?.Invoke(channelFactory.State);
-                    };
-                    channelFactory.Faulted += stateChanged;
-                    channelFactory.Opening += stateChanged;
-                    channelFactory.Opened += stateChanged;
-                    channelFactory.Closing += stateChanged;
-                    channelFactory.Closed += stateChanged;
+                    channel = channelFactory.CreateChannel();
 
-                    try
+                    if (channelFactory != null && channel != null)
                     {
-                        channel = channelFactory.CreateChannel();
-
-                        if (channelFactory != null && channel != null)
+                        if (channelFactory.State == CommunicationState.Opened)
                         {
-                            if (channelFactory.State == CommunicationState.Opened)
-                            {
-                                _callbackHandler.Channel = channel;
-                                _callbackHandler.Channel.Register();
-                                ConnectedChanged?.Invoke(true);
-                            }
+                            _callbackHandler.Channel = channel;
+                            _callbackHandler.Channel.Register();
+                            ConnectedChanged?.Invoke(true);
                         }
                     }
-                    catch (Exception e)
-                    {
-                        channelFactory = null;
-                        channel = null;
-                        ChannelStateChanged?.Invoke(CommunicationState.Faulted);
-                        CommunicationError?.Invoke(e as CommunicationException);
-                        ConnectedChanged?.Invoke(false);
-                    }
                 }
-
-
-            });
+                catch (Exception e)
+                {
+                    channelFactory = null;
+                    channel = null;
+                    ChannelStateChanged?.Invoke(CommunicationState.Faulted);
+                    CommunicationError?.Invoke(e as CommunicationException);
+                    ConnectedChanged?.Invoke(false);
+                }
+            }
+            //});
         }
 
-        public async void Disconnect()
+        public void Disconnect()
         {
-            var disconnecting = Task.Factory.StartNew(() =>
+            // var disconnecting = Task.Factory.StartNew(() =>            {
+            if (channelFactory?.State == CommunicationState.Opened)
             {
-                if (channelFactory?.State == CommunicationState.Opened)
+                try
                 {
-                    try
-                    {
-                        _callbackHandler.Channel.Unregister();
-                        System.Threading.Thread.Sleep(200);
-                        this.channelFactory?.Close();
-                        _callbackHandler.Channel = null;
-                        this.channel = null;
-                        this.channelFactory = null;
-                        ConnectedChanged?.Invoke(false);
-                    }
-                    catch (CommunicationException ce)
-                    {
-                        CommunicationError?.Invoke(ce);
-                        _callbackHandler.Channel = null;
-                        this.channel = null;
-                        this.channelFactory = null;
-                        ConnectedChanged?.Invoke(false);
-                    }
-
+                    _callbackHandler.Channel.Unregister();
+                    System.Threading.Thread.Sleep(200);
+                    this.channelFactory?.Close();
+                    _callbackHandler.Channel = null;
+                    this.channel = null;
+                    this.channelFactory = null;
+                    ConnectedChanged?.Invoke(false);
                 }
-            });
+                catch (CommunicationException ce)
+                {
+                    CommunicationError?.Invoke(ce);
+                    _callbackHandler.Channel = null;
+                    this.channel = null;
+                    this.channelFactory = null;
+                    ConnectedChanged?.Invoke(false);
+                }
+
+            }
+            //});
 
         }
     }

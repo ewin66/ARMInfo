@@ -80,7 +80,7 @@ namespace ARMInfoServer
         public Server()
         {
             proxyStorageService = new ProxyStorageService<INetContract>();
-
+            
         }
 
         private void SetUp()
@@ -141,7 +141,7 @@ namespace ARMInfoServer
 
             if (State != CommunicationState.Opened)
             {
-                //task.Start();
+                task.Start();
                 try
                 {
                     if (service?.State != CommunicationState.Opened ||
@@ -167,13 +167,12 @@ namespace ARMInfoServer
         {
             if (State == CommunicationState.Opened)
             {
-                Task.Factory.StartNew(() =>
-                {
+                //Task.Factory.StartNew(() =>{
                     //Dispatcher.Invoke(() => {
                     service?.Close();
                     service = null;
                     //});
-                });
+                //});
             }
         }
         #endregion

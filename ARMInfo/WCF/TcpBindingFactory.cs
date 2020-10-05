@@ -14,8 +14,9 @@ namespace ARMInfo.WCF
             {
                 MaxBufferPoolSize = 1024 * 1024 * 10,
                 MaxBufferSize = 1024 * 1024 * 10,
-                MaxReceivedMessageSize = 1024 * 1024 * 10
-            };
-        }
+                MaxReceivedMessageSize = 1024 * 1024 * 10,
+                ReceiveTimeout = new TimeSpan(0, 1, 0)
+        };
     }
+}
 }

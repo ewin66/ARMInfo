@@ -9,6 +9,8 @@ using System.Reflection;
 using System.Threading;
 using System.Windows;
 
+using ARMInfo.WCF;
+
 using InfoCollector.PersonalInformation;
 using InfoCollector.SystemInformation;
 
@@ -21,7 +23,10 @@ namespace ARMInfo
         {
             try
             {
-                //new MainWindow();
+                ServiceClient sc = new ServiceClient();
+                sc.InitService(new System.Net.IPAddress(new byte[] { 10, 221, 0, 2 }), 10221, "ARMInfo");
+                var view = new MainWindow(sc);
+                view.Show();
             }
             catch (Exception err)
             {
@@ -193,7 +198,7 @@ namespace ARMInfo
             App.Current.Shutdown();
         }
 
-        private void Application_Startup1(object sender, StartupEventArgs e)
+        private void Application_Startup2(object sender, StartupEventArgs e)
         {
 #if !DEBUG
             if (CheckWorkDirectory())
