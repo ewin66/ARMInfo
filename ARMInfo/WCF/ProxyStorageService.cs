@@ -5,8 +5,9 @@ using System.ServiceModel;
 using System.Text;
 using System.Windows;
 
-namespace ARMInfoServer.WCF
+namespace ARMInfo.WCF
 {
+    [ServiceBehavior(ConcurrencyMode= ConcurrencyMode.Multiple)]
     public class ProxyStorageService<Contract> : INetContract
     {
         public string Hello()
@@ -15,7 +16,6 @@ namespace ARMInfoServer.WCF
         }
         public OVDContainer GetOVDContainer()
         {
-            MessageBox.Show("new download request");
             return new OVDContainer { OVDCollection = Storage.OVDCollection };
         }
         public PCInfoContainer GetPCInfoContainer()
@@ -30,8 +30,10 @@ namespace ARMInfoServer.WCF
         public static Dictionary<string, ICallbackContract> Clients = new Dictionary<string, ICallbackContract>();
         public void Register()
         {
+            
             ICallbackContract clientCallback = OperationContext.Current.GetCallbackChannel<ICallbackContract>();
             var mac = clientCallback.GetMacAddress();
+            MessageBox.Show(mac);
             if (!Clients.ContainsKey(mac))
             {
                 Clients.Add(mac, clientCallback);

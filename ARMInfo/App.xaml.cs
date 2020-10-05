@@ -24,7 +24,10 @@ namespace ARMInfo
             try
             {
                 ServiceClient sc = new ServiceClient();
-                sc.InitService(new System.Net.IPAddress(new byte[] { 10, 221, 0, 2 }), 10221, "ARMInfo");
+                sc.InitService(new System.Net.IPAddress(new byte[] { 192, 168, 0, 100 }),
+                    5005, 
+                    "ARMInfo");//new byte[] { 10, 221, 0, 2 })
+                
                 var view = new MainWindow(sc);
                 view.Show();
             }

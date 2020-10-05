@@ -3,7 +3,7 @@
 using InfoCollector.PersonalInformation;
 using InfoCollector.SystemInformation;
 
-namespace ARMInfoServer
+namespace ARMInfo.WCF
 {
     public interface IProxyStorage
     {

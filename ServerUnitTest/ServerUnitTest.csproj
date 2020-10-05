@@ -60,6 +60,10 @@
       <Project>{11ca6c03-eab7-48c8-8695-83e199a17ac3}</Project>
       <Name>ARMInfoServer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ARMInfo\ARMInfo.csproj">
+      <Project>{E3B97C26-0A80-493E-B75E-2DD7A933E87A}</Project>
+      <Name>ARMInfo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\InfoCollector\InfoCollector.csproj">
       <Project>{6701D4D0-2656-4475-9D97-AC1C5FD4AE94}</Project>
       <Name>InfoCollector</Name>

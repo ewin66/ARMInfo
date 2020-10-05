@@ -16,7 +16,9 @@ namespace ARMInfo.WCF
         public INetContract Channel { get; set; }
         static CallbackHandler()
         {
+#if !DEBUG
             SystemInfo.IpFilter = "10.221.";
+#endif
         }
 
         public CallbackHandler()

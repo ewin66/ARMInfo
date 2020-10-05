@@ -1,7 +1,8 @@
 ﻿using System;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ARMInfoServer;
+using ARMInfo;
+using ARMInfo.WCF;
 
 namespace ServerUnitTest
 {

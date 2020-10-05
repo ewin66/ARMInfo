@@ -4,13 +4,12 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-
 using InfoCollector.PersonalInformation;
 using InfoCollector.SystemInformation;
 
 using Newtonsoft.Json;
 
-namespace ARMInfoServer
+namespace ARMInfo.WCF
 {
     public sealed class ProxyStorage : IProxyStorage
     {
@@ -21,8 +20,8 @@ namespace ARMInfoServer
 
         #region urls
 
-#if !DEBUG
-        public const string root = @"http://83.169.224.42:25780/citsizi/api/v2/";
+#if DEBUG
+        public const string root = @"http://192.168.221.99/citsizi/api/v2/";//83.169.224.42:25780
 #else
         public const string root = @"http://10.221.0.58/citsizi/api/v2/";
 #endif

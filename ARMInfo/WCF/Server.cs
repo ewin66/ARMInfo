@@ -5,11 +5,11 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 
-using ARMInfoServer.WCF;
+using ARMInfo.WCF;
 
 using InfoCollector.PersonalInformation;
 
-namespace ARMInfoServer
+namespace ARMInfo
 {
     public class Server
     {
@@ -23,13 +23,13 @@ namespace ARMInfoServer
         #endregion
 
         public IPAddress ServerIP { get; set; }
-#if !DEBUG
-            = new IPAddress(new byte[] { 192, 168, 1, 100 });
+#if DEBUG
+            = new IPAddress(new byte[] { 192, 168, 0, 100 });
 #else
             = new IPAddress(new byte[] { 10, 221, 0, 2 });
 #endif
 
-        public uint ServerPort { get; set; } = 10221;
+        public uint ServerPort { get; set; } = 5005;
         public string ServiceName { get; set; } = "ARMInfo";
 
         public CommunicationState State
@@ -41,7 +41,7 @@ namespace ARMInfoServer
             }
         }
 
-        public IDictionary<string, ICallbackContract> Clients => ProxyStorageService<INetContract>.Clients;
+        //public IDictionary<string, ICallbackContract> Clients => ProxyStorageService<INetContract>.Clients;
 
         public List<IOVDInfo> OVDCollection => proxyStorageService.Storage.OVDCollection;
 
@@ -118,30 +118,29 @@ namespace ARMInfoServer
 
         public void Start()
         {
-            var task = new Task(() =>
-            {
-                try
-                {
-                    if (service?.State != CommunicationState.Opened ||
-                        service?.State != CommunicationState.Opening || service == null)
-                    {
-                        SetUp();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    service = null;
-                    State = CommunicationState.Faulted;
-                }
-                if (service != null)
-                {
-                    service?.Open();
-                }
-            });
+            //var task = new Task(() =>
+            //{
+            //    try
+            //    {
+            //        if (service?.State != CommunicationState.Opened ||
+            //            service?.State != CommunicationState.Opening || service == null)
+            //        {
+            //            SetUp();
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        service = null;
+            //        State = CommunicationState.Faulted;
+            //    }
+            //    if (service != null)
+            //    {
+            //        service?.Open();
+            //    }
+            //});
 
             if (State != CommunicationState.Opened)
-            {
-                task.Start();
+            {               
                 try
                 {
                     if (service?.State != CommunicationState.Opened ||

@@ -13,7 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ARMInfoServer
+using ARMInfo.WCF;
+
+namespace ARMInfo
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
@@ -30,7 +32,7 @@ namespace ARMInfoServer
                 {
                     if (state == System.ServiceModel.CommunicationState.Opened)
                     {
-                        
+
                         Title = "Connected";
                     }
                     else
@@ -38,13 +40,13 @@ namespace ARMInfoServer
                         Title = "Disconnected";
                     }
                 }));
-
             };
+            Server.Start();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Server.Start();
+
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

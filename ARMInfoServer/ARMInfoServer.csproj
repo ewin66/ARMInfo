@@ -58,16 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="IProxyStorage.cs" />
-    <Compile Include="ProxyStorage.cs" />
     <Compile Include="Report.cs" />
-    <Compile Include="Server.cs" />
-    <Compile Include="WCF\ICallbackContract.cs" />
-    <Compile Include="WCF\INetContract.cs" />
-    <Compile Include="WCF\IRegisteredCallback.cs" />
-    <Compile Include="WCF\OVDContainer.cs" />
-    <Compile Include="WCF\PCInfoContainer.cs" />
-    <Compile Include="WCF\ProxyStorageService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -109,6 +100,10 @@
     <Resource Include="Info.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ARMInfo\ARMInfo.csproj">
+      <Project>{e3b97c26-0a80-493e-b75e-2dd7a933e87a}</Project>
+      <Name>ARMInfo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\InfoCollector\InfoCollector.csproj">
       <Project>{6701d4d0-2656-4475-9d97-ac1c5fd4ae94}</Project>
       <Name>InfoCollector</Name>

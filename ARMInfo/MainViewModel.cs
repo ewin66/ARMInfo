@@ -36,7 +36,8 @@ namespace ARMInfo
 
         public MainViewModel(ServiceClient sc)
         {
-            sc.Connect();
+            if (!sc.IsConnected)
+                sc.Connect();
 
             MessageBox.Show(sc.Hello());
 

@@ -5,7 +5,7 @@ using System.Text;
 
 using Newtonsoft.Json;
 
-namespace ARMInfoServer
+namespace ARMInfo
 {
     public class Report
     {

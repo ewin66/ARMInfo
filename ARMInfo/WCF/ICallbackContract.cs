@@ -11,6 +11,7 @@ namespace ARMInfo.WCF
         //[OperationContract(IsOneWay = false)]
         //string GetClientHostName();
 
+        
         [OperationContract(IsOneWay = false)]
         string GetMacAddress();
     }
